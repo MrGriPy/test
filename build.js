@@ -9,7 +9,7 @@ fs.mkdirSync(distPath, { recursive: true });
 
 // Génère un fichier bundle.js contenant le code source transformé
 const source = fs.readFileSync(path.join(__dirname, 'src', 'index.js'), 'utf8');
-const bundle = `/* Build generated at ${new Date().toISOString()} */\n${source}\nconsole.log(hello());\n`;
+const bundle = `/* Build generated at ${new Date().toISOString()} */\n${source}\n`;
 
 fs.writeFileSync(bundlePath, bundle, 'utf8');
 

@@ -32,6 +32,25 @@ Déclencheur : `workflow_dispatch` (manuel)
 - upload de `dist/` comme artefact
 - écriture d'un résumé du build
 
+## Exercice 3 — Construire, tester et déployer
+
+Workflow : `.github/workflows/build-test-deploy.yml`
+
+Déclencheur : `workflow_dispatch` avec choix entre `staging` et `production`
+
+Étapes :
+
+- construction unique de `dist/` et publication de l'artefact `application`
+- tests du même artefact sur Node.js 20 et 22, sous Ubuntu et Windows
+- exécution de deux variantes au maximum en parallèle
+- déploiement vers l'Environment choisi après la réussite de tous les tests
+- affichage de `API_URL` et écriture du résumé de déploiement
+
+Configuration GitHub requise :
+
+- Environment `staging` avec `API_URL=https://api-staging.example.com`
+- Environment `production` avec `API_URL=https://api.example.com` et approbation obligatoire
+
 ## Scripts disponibles
 
 ```bash

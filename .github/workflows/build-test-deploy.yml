@@ -1,0 +1,98 @@
+name: Build, Test and Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environnement de déploiement'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build application
+        run: npm run build
+
+      - name: Upload application artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: application
+          path: dist/
+
+  test:
+    needs: build
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        node: ['20', '22']
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Download application artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: application
+          path: dist/
+
+      - name: Test application build
+        run: npm test
+        env:
+          BUILD_PATH: './dist/bundle.js'
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+
+    steps:
+      - name: Download application artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: application
+          path: dist/
+
+      - name: Deploy application
+        run: echo "Deploying application to ${{ vars.API_URL }}"
+
+      - name: Write deployment summary
+        run: |
+          echo "## Résumé du déploiement" >> $GITHUB_STEP_SUMMARY
+          echo "- **Cible** : ${{ inputs.environment }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **URL** : ${{ vars.API_URL }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit** : ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY

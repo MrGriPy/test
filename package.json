@@ -1,7 +1,7 @@
 {
   "name": "test",
   "version": "1.0.0",
-  "description": "Projet de test pour valider une CI GitHub Actions (Exercices 1 et 2)",
+  "description": "Projet de test pour valider une CI/CD GitHub Actions (Exercices 1 à 3)",
   "main": "src/index.js",
   "scripts": {
     "build": "node build.js",

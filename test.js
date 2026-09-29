@@ -1,4 +1,4 @@
-const hello = require('./src/index.js');
+const hello = require(process.env.BUILD_PATH || './src/index.js');
 
 if (typeof hello !== 'function') {
   throw new Error('hello n\'est pas une fonction');
