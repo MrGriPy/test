@@ -1,0 +1,47 @@
+# Projet de test CI/CD
+
+Ce repo contient les exercices du cours CI/CD de Mathieu Campani.
+
+## Exercice 1 — Valider un projet
+
+Workflow : `.github/workflows/ci.yml`
+
+Déclencheur : `push`
+
+Étapes :
+
+- checkout du code
+- setup Node.js 20
+- installation des dépendances (`npm ci`)
+- exécution des tests (`npm test`)
+- écriture du statut et de la ref du commit dans `$GITHUB_STEP_SUMMARY`
+
+## Exercice 2 — Produire un artefact
+
+Workflow : `.github/workflows/build-artifact.yml`
+
+Déclencheur : `workflow_dispatch` (manuel)
+
+Étapes :
+
+- checkout du code
+- setup Node.js 20 avec cache npm
+- installation des dépendances (`npm ci`)
+- build du projet (`npm run build`) qui produit `dist/bundle.js`
+- vérification que `dist/bundle.js` existe
+- upload de `dist/` comme artefact
+- écriture d'un résumé du build
+
+## Scripts disponibles
+
+```bash
+npm test       # lance les tests
+npm run build  # génère dist/bundle.js
+```
+
+## Fichiers importants
+
+- `src/index.js` : code source
+- `build.js` : script de build
+- `test.js` : tests basiques
+- `package.json` / `package-lock.json` : configuration Node.js

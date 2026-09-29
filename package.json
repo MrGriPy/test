@@ -1,8 +1,16 @@
 {
   "name": "test",
   "version": "1.0.0",
-  "description": "Projet de test pour valider une CI GitHub Actions",
+  "description": "Projet de test pour valider une CI GitHub Actions (Exercices 1 et 2)",
+  "main": "src/index.js",
   "scripts": {
+    "build": "node build.js",
     "test": "node test.js"
-  }
+  },
+  "keywords": [
+    "ci-cd",
+    "github-actions"
+  ],
+  "author": "",
+  "license": "MIT"
 }
