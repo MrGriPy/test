@@ -1,0 +1,8 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "description": "Projet de test pour valider une CI GitHub Actions",
+  "scripts": {
+    "test": "node test.js"
+  }
+}
